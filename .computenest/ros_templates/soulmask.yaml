@@ -383,8 +383,9 @@ Metadata:
             zh-cn: 支付时长
             en: Pay Period
           AssociationProperty: 'PayPeriod:PayPeriodUnit'
-        - Key: OSType
         - Key: InstancePassword
+        - Key: ServerName
+        - Key: ServerType
           Required: true
       CostRelatedKeys:
         - RegionId
