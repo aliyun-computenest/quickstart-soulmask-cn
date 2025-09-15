@@ -342,15 +342,27 @@ Metadata:
             zh-cn: 带宽
             en: Internet Charge Type
           Value: '${InternetChargeType} / ${InternetMaxBandwidthOut} Mbps'
+        - Key: PayType
+          Label:
+            zh-cn: 付费类型
+            en:  Pay Type
+          Value: '${PayType}'
+        - Key: PayPeriodUnit
+          Label:
+            zh-cn: 付费时长
+            en: Pay Period
+          Value: '${PayPeriod} ${PayPeriodUnit}'
       PredefinedParameters:
-        - Name: 热卖：最多支持8个玩家
+        - Name: 预付费套餐：最多支持20个玩家
           Parameters:
-            PayType: PrePaid
             EcsInstanceType: ecs.e-c1m4.xlarge
             SystemDiskCategory: cloud_essd_entry
             SystemDiskSize: 100
             InternetChargeType: PayByBandwidth
             InternetMaxBandwidthOut: 2
+            PayPeriodUnit: Month
+            PayPeriod: 1
+            PayType: PrePaid
           OrderList:
             - PayType
             - EcsInstanceType
@@ -358,16 +370,21 @@ Metadata:
             - SystemDiskSize
             - InternetChargeType
             - InternetMaxBandwidthOut
+            - PayPeriodUnit
+            - PayPeriod
+            - PayType
           Type: Normal
           Description: 性能强劲不卡顿，入门尝鲜更尽兴
-        - Name: 力荐：最多支持20个玩家
+        - Name: 按量付费套餐：最多支持20个玩家
           Parameters:
-            PayType: PrePaid
-            EcsInstanceType: ecs.e-c1m4.2xlarge
+            EcsInstanceType: ecs.e-c1m4.xlarge
             SystemDiskCategory: cloud_essd_entry
             SystemDiskSize: 100
             InternetChargeType: PayByBandwidth
-            InternetMaxBandwidthOut: 10
+            InternetMaxBandwidthOut: 2
+            PayPeriodUnit: Month
+            PayPeriod: 1
+            PayType: PostPaid
           OrderList:
             - PayType
             - EcsInstanceType
@@ -375,14 +392,12 @@ Metadata:
             - SystemDiskSize
             - InternetChargeType
             - InternetMaxBandwidthOut
+            - PayPeriodUnit
+            - PayPeriod
+            - PayType
           Type: Normal
-          Description: 全天在线不卡顿，多人开黑更尽兴
+          Description: 性能强劲不卡顿，入门尝鲜更尽兴，闲置可以关机节省费用！
       CustomFields:
-        - Key: PayPeriodUnit1
-          Label:
-            zh-cn: 支付时长
-            en: Pay Period
-          AssociationProperty: 'PayPeriod:PayPeriodUnit'
         - Key: InstancePassword
         - Key: ServerName
         - Key: ServerType
