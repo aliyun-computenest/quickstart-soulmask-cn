@@ -46,6 +46,24 @@ Tasks:
     instanceId: '{{ ACS::TaskLoopItem }}'
   Loop:
     Items: '{{ getInstance.instanceIds }}'
+- Name: runLinuxCommand
+  Action: ACS::ECS::RunCommand
+  Description:
+    en: Run command
+    zh-cn: 执行关机命令
+  Properties:
+    regionId: '{{ regionId }}'
+    instanceId: '{{ ACS::TaskLoopItem }}'
+    commandType: RunShellScript
+    username: steam
+    workingDir: /home/steam/Steam
+    timeout: 3600
+    commandContent: |-
+    #!/bin/bash
+    ./start.sh
+    sleep 120
+Loop:
+  Items: '{{ getInstance.instanceIds }}'
 Metadata:
   ALIYUN::OOS::Interface:
     ParameterGroups:

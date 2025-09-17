@@ -36,6 +36,24 @@ Tasks:
       instanceIds:
         Type: List
         ValueSelector: Instances.Instance[].InstanceId
+  - Name: runLinuxCommand
+    Action: ACS::ECS::RunCommand
+    Description:
+      en: Run command
+      zh-cn: 执行关机命令
+    Properties:
+      regionId: '{{ regionId }}'
+      instanceId: '{{ ACS::TaskLoopItem }}'
+      commandType: RunShellScript
+      username: steam
+      workingDir: /home/steam/Steam
+      timeout: 3600
+      commandContent: |-
+        #!/bin/bash
+        ./stop.sh
+        sleep 60
+    Loop:
+      Items: '{{ getInstance.instanceIds }}'
   - Name: stopInstance
     Action: ACS::ECS::StopInstance
     Description:

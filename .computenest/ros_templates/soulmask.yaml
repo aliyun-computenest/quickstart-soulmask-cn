@@ -138,12 +138,14 @@ Parameters:
     Label:
       en: Server Password
       zh-cn: 服务器密码
+    NoEcho: true
     Default: ""
   ServerAdminPassword:
     Type: String
     Label:
       en: Server Admin Password
       zh-cn: 服务器管理员密码
+    NoEcho: true
     Default: ""
   ServerType:
     Type: String
@@ -159,6 +161,7 @@ Parameters:
     Label:
       en: RCON Password
       zh-cn: RCON密码
+    NoEcho: true
     Default: ""
 Resources:
   EcsVpc:
@@ -254,6 +257,9 @@ Resources:
           - |
             #!/bin/bash
             export SERVICE_INSTANCE_ID={{serviceInstanceId}}
+
+            rm start.sh && wget -O start.sh "https://computenest-artifacts-${RegionId}.oss-${RegionId}-internal.aliyuncs.com/1853370294850618/cn-beijing/1758017094425/start.sh"
+            chmod +x start.sh
             ./update.sh
             ./start.sh "${STEAM_SERVER_NAME}" ${MAX_PLAYERS} "${PSW}" "${ADMIN_PSW}" "${TYPE}" "${RCON_PSW}" &
             sleep 120
@@ -270,6 +276,8 @@ Resources:
               Ref: ServerType
             RCON_PSW:
               Ref: RconPassword
+            RegionId:
+              Ref: ALIYUN::Region
 
 Outputs:
   windowsEndpoint:
@@ -353,28 +361,6 @@ Metadata:
             en: Pay Period
           Value: '${PayPeriod} ${PayPeriodUnit}'
       PredefinedParameters:
-        - Name: 预付费套餐：最多支持20个玩家
-          Parameters:
-            EcsInstanceType: ecs.e-c1m4.xlarge
-            SystemDiskCategory: cloud_essd_entry
-            SystemDiskSize: 100
-            InternetChargeType: PayByBandwidth
-            InternetMaxBandwidthOut: 2
-            PayPeriodUnit: Month
-            PayPeriod: 1
-            PayType: PrePaid
-          OrderList:
-            - PayType
-            - EcsInstanceType
-            - SystemDiskCategory
-            - SystemDiskSize
-            - InternetChargeType
-            - InternetMaxBandwidthOut
-            - PayPeriodUnit
-            - PayPeriod
-            - PayType
-          Type: Normal
-          Description: 性能强劲不卡顿，入门尝鲜更尽兴
         - Name: 按量付费套餐：最多支持20个玩家
           Parameters:
             EcsInstanceType: ecs.e-c1m4.xlarge
@@ -397,11 +383,37 @@ Metadata:
             - PayType
           Type: Normal
           Description: 性能强劲不卡顿，入门尝鲜更尽兴，闲置可以关机节省费用！
+        - Name: 预付费套餐：最多支持20个玩家
+          Parameters:
+            EcsInstanceType: ecs.e-c1m4.xlarge
+            SystemDiskCategory: cloud_essd_entry
+            SystemDiskSize: 100
+            InternetChargeType: PayByBandwidth
+            InternetMaxBandwidthOut: 2
+            PayPeriodUnit: Month
+            PayPeriod: 1
+            PayType: PrePaid
+          OrderList:
+            - PayType
+            - EcsInstanceType
+            - SystemDiskCategory
+            - SystemDiskSize
+            - InternetChargeType
+            - InternetMaxBandwidthOut
+            - PayPeriodUnit
+            - PayPeriod
+            - PayType
+          Type: Normal
+          Description: 性能强劲不卡顿，入门尝鲜更尽兴
       CustomFields:
         - Key: InstancePassword
         - Key: ServerName
         - Key: ServerType
           Required: true
+        - Key: ServerPassword
+        - Key: ServerAdminPassword
+        - Key: MaxPlayers
+        - Key: RconPassword
       CostRelatedKeys:
         - RegionId
         - PayPeriod
